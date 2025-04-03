@@ -27,7 +27,7 @@
         .avatar { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; border: 4px solid yellow; box-shadow: 0 0 15px yellow; transition: transform 0.5s ease-in-out; }
         .avatar:hover { transform: scale(1.1); }
         .animated-text { font-size: 26px; animation: fadeBlink 1.5s ease-in-out infinite alternate; text-shadow: 0 0 10px yellow; }
-        a { color: yellow; text-decoration: none; font-size: 20px; margin-top: 10px; display: block; text-shadow: 0 0 5px yellow; transition: transform 0.3s ease-in-out; }
+        a { color: yellow; text-decoration: none; font-size: 20px; margin-top: 20px; display: block; text-shadow: 0 0 5px yellow; transition: transform 0.3s ease-in-out; }
         a:hover { transform: scale(1.1); text-shadow: 0 0 10px orange; }
         
         .quote {
@@ -50,7 +50,6 @@
         <img src="" id="avatar" class="avatar" alt="">
         <h2 id="username" class="animated-text">Lädt...</h2>
         <a href="https://discord.gg/u6e2V4TCZN" target="_blank">Tritt unserem Discord bei!</a>
-        <a href="https://steamcommunity.com/workshop/filedetails/?id=3449730217" target="_blank">Unsere Steam-Kollektion!</a>
 
         <!-- Zitatbereich -->
         <div class="quote" id="quote">"Erstens: Befehle. Du befolgst Befehle. Sie halten Euch am Leben. Zweitens: Ihr seid Teil eines Teams. Wir kümmern uns um unsere Kameraden – ich gebe Euch Rückendeckung, Ihr gebt sie mir." - CT-7567 "Rex"</div>
@@ -68,29 +67,26 @@
         setInterval(changeBackground, 5000);
         changeBackground();
 
-        const params = new URLSearchParams(window.location.search);
-        const steamid = params.get("steamid");
-        if (steamid) {
-            fetch(`https://steamcommunity.com/profiles/${steamid}?xml=1`).then(res => res.text()).then(str => {
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(str, "text/xml");
-                document.getElementById("username").textContent = xml.getElementsByTagName("steamID")[0].textContent;
-                document.getElementById("avatar").src = xml.getElementsByTagName("avatarFull")[0].textContent;
-            });
-        }
-
-        // Zitat wechseln
+        // Zitat wechseln (Clone Wars & andere Star Wars Charaktere)
         const quotes = [
-            '"Erstens: Befehle. Du befolgst Befehle. Sie halten Euch am Leben." - CT-7567 "Rex"',
+            '"Erstens: Befehle. Du befolgst Befehle. Sie halten Euch am Leben. Zweitens: Ihr seid Teil eines Teams. Wir kümmern uns um unsere Kameraden – ich gebe Euch Rückendeckung, Ihr gebt sie mir." - CT-7567 "Rex"',
             '"Die Armee kann froh sein, dass sie einen Klon wie dich hat, Hevy." - CT-782 Hevy',
             '"Du gehst nirgendwo hin, Kopfgeldjäger." - Denal',
             '"Gute Soldaten befolgen Befehle."',
             '"Erfahrung übertrifft alles" - Captain Rex',
             '"Ich bin noch nicht fertig, Sir, wir können das schaffen, General!" - Captain Keeli',
-            '"Ich würde gerne sagen, dass ich der einzige [Klon] bin, aber wir beide wissen, dass ich es nicht bin." - RC-1136 Darman ',
+            '"Ich würde gerne sagen, dass ich der einzige [Klon] bin, aber wir beide wissen, dass ich es nicht bin." - RC-1136 Darman ' ,
+            '"Roger. Roger." - Captain Rex ' ,
+            '"„Weiße Jungs sechsundzwanzig, Hutùune null. Das nenne ich einen Heimsieg.“" - Corr',
             '"Wann werdet ihr Narren das endlich lernen? Niemand entkommt Kommandant Fox." - CC-1010 Fox',
             '"Mit solchen schweren Verletzungen sollte man Sie ausmustern." - Ordo',
             '"Was sollte ich sonst tun? Alle meine Brüder sind an der Front. Was bin ich ohne sie?" - Corr',
+            '"Tja Kumpel, du wolltest doch schon immer an vorderster Front sein." - CT-5555 Fives',
+            '"Melde dich, Soldat 3856. Was hast du gesehen? Soldat 3856, bitte melden." - Klon_Kommandat Faie',
+            '"Ich mag diesen Job. Was soll ich sonst tun?" - RC-3222 Atin',
+            '"„Du weißt, dass ich keine Klone mag. Und Faie mag ich noch weniger.“" - Quinlan Vos',
+            '"Hier Soldat 1212. 9662 ist tot. Ich habe den Verräter im Visier. Ausführung der Order 66" - CT-1212',
+            '"Ich war nur ein einfacher überflüssiger Klon, nicht mehr wert als Kanonenfutter in einem Krieg, der für mich keinen Sinn ergab." - Cut Lawquane',
             '"Sagt Hallo zu den Jungs in langweiligem Schwarz!" - RC-1138 Boss',
         ];
 
@@ -101,9 +97,10 @@
             currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
         }
 
-        setInterval(changeQuote, 10000);
+        setInterval(changeQuote, 10000);  // Zitat alle 10 Sekunden wechseln
         changeQuote();
     </script>
 </body>
 </html>
+
 
