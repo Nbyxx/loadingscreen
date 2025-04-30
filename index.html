@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMod Loadingscreen</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Orbitron', sans-serif; text-align: center; color: white; overflow: hidden; background: black; }
+        .background { position: fixed; width: 100%; height: 100%; background-size: cover; background-position: center; animation: zoomEffect 10s infinite alternate; filter: blur(3px); transition: filter 1s ease-in-out; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        
+        
+        .title {
+            font-size: 80px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px yellow, 0 0 40px orange, 0 0 60px red;
+            margin-bottom: 50px;
+            transform: skew(-10deg);
+            animation: floatText 3s infinite alternate ease-in-out;
+        }
+        
+        .avatar { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; border: 4px solid yellow; box-shadow: 0 0 15px yellow; transition: transform 0.5s ease-in-out; }
+        .avatar:hover { transform: scale(1.1); }
+        .animated-text { font-size: 26px; animation: fadeBlink 1.5s ease-in-out infinite alternate; text-shadow: 0 0 10px yellow; }
+        a { color: yellow; text-decoration: none; font-size: 20px; margin-top: 20px; display: block; text-shadow: 0 0 5px yellow; transition: transform 0.3s ease-in-out; }
+        a:hover { transform: scale(1.1); text-shadow: 0 0 10px orange; }
+        
+        .quote {
+            font-size: 22px;
+            font-style: italic;
+            color: lightgray;
+            margin-top: 30px;
+            text-shadow: 0 0 5px yellow;
+        }
+
+        @keyframes fadeBlink { 0% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes zoomEffect { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        @keyframes floatText { 0% { transform: translateY(0) skew(-10deg); } 100% { transform: translateY(-10px) skew(-10deg); } }
+    </style>
+</head>
+<body>
+    <div class="background" id="bg"></div>
+    <div class="overlay">
+        <h1 class="title">Republic Underworld</h1>
+        <img src="" id="avatar" class="avatar" alt="">
+        <h2 id="username" class="animated-text">Lädt...</h2>
+        <a href="https://discord.gg/u6e2V4TCZN" target="_blank">Tritt unserem Discord bei!</a>
+
+       
+        <div class="quote" id="quote">"Erstens: Befehle. Du befolgst Befehle. Sie halten Euch am Leben. Zweitens: Ihr seid Teil eines Teams. Wir kümmern uns um unsere Kameraden – ich gebe Euch Rückendeckung, Ihr gebt sie mir." - CT-7567 "Rex"</div>
+    </div>
+
+    <script>
+        const images = ["Download.jpg","04rab0ae9nb11.png","4cji6fn1wp151.webp"];
+        let index = 0;
+        function changeBackground() {
+            document.getElementById("bg").style.backgroundImage = `url(${images[index]})`;
+            document.getElementById("bg").style.filter = "blur(5px)";
+            setTimeout(() => { document.getElementById("bg").style.filter = "blur(3px)"; }, 1000);
+            index = (index + 1) % images.length;
+        }
+        setInterval(changeBackground, 5000);
+        changeBackground();
+
+        const params = new URLSearchParams(window.location.search);
+        const steamid = params.get("steamid");
+        if (steamid) {
+            fetch(`https://steamcommunity.com/profiles/${steamid}?xml=1`).then(res => res.text()).then(str => {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(str, "text/xml");
+                document.getElementById("username").textContent = xml.getElementsByTagName("steamID")[0].textContent;
+                document.getElementById("avatar").src = xml.getElementsByTagName("avatarFull")[0].textContent;
+            });
+        }
+
+        // Zitate
+        const quotes = [
+        '"Erstens: Befehle. Du befolgst Befehle. Sie halten Euch am Leben. Zweitens: Ihr seid Teil eines Teams. Wir kümmern uns um unsere Kameraden – ich gebe Euch Rückendeckung, Ihr gebt sie mir." - CT-7567 "Rex"',
+            '"Die Armee kann froh sein, dass sie einen Klon wie dich hat, Hevy." - CT-782 Hevy',
+            '"Du gehst nirgendwo hin, Kopfgeldjäger." - Denal',
+            '"Gute Soldaten befolgen Befehle."',
+            '"Erfahrung übertrifft alles" - Captain Rex',
+            '"Ich bin noch nicht fertig, Sir, wir können das schaffen, General!" - Captain Keeli',
+            '"Ich würde gerne sagen, dass ich der einzige [Klon] bin, aber wir beide wissen, dass ich es nicht bin." - RC-1136 Darman ',
+            '"Roger. Roger." - Captain Rex ',
+            '"„Weiße Jungs sechsundzwanzig, Hutùune null. Das nenne ich einen Heimsieg.“" - Corr',
+            '"Wann werdet ihr Narren das endlich lernen? Niemand entkommt Kommandant Fox." - CC-1010 Fox',
+            '"Mit solchen schweren Verletzungen sollte man Sie ausmustern." - Ordo',
+            '"Was sollte ich sonst tun? Alle meine Brüder sind an der Front. Was bin ich ohne sie?" - Corr',
+            '"Tja Kumpel, du wolltest doch schon immer an vorderster Front sein." - CT-5555 Fives',
+            '"Melde dich, Soldat 3856. Was hast du gesehen? Soldat 3856, bitte melden." - Klon_Kommandat Faie',
+            '"Ich mag diesen Job. Was soll ich sonst tun?" - RC-3222 Atin',
+            '"„Du weißt, dass ich keine Klone mag. Und Faie mag ich noch weniger.“" - Quinlan Vos',
+            '"Hier Soldat 1212. 9662 ist tot. Ich habe den Verräter im Visier. Ausführung der Order 66" - CT-1212',
+            '"Ich war nur ein einfacher überflüssiger Klon, nicht mehr wert als Kanonenfutter in einem Krieg, der für mich keinen Sinn ergab." - Cut Lawquane',
+            '"Sagt Hallo zu den Jungs in langweiligem Schwarz!" - RC-1138 Boss',
+        
+        
+        ];
+
+        let currentQuoteIndex = 0;
+
+        function changeQuote() {
+            document.getElementById("quote").textContent = quotes[currentQuoteIndex];
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        }
+
+        setInterval(changeQuote, 10000); 
+        changeQuote();
+    </script>
+</body>
+</html>
