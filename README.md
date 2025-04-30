@@ -1,5 +1,5 @@
 # Loadingscreen
-Diesen Loading-Screen habe ich für einen Server erstellt, jedoch wurde er nicht fertiggestellt oder weiterentwickelt, da das Projekt abgebrochen wurde.
+Diesen Loadingscreen habe ich für einen Server erstellt, jedoch wurde er nicht fertiggestellt oder weiterentwickelt, da das Projekt abgebrochen wurde.
 
 Welche Dinge noch umgesetzt werden sollten:
 
